@@ -1,0 +1,18 @@
+* Socks5 Proxy using Wireguard in Docker
+
+wireguard config can be generate by cloudflare warp bot.
+
+** Using
++ Start
+
+~docker-compose up -d~
+
++ Stop
+
+~docker-compose down~
+
+** Warp
+*** Select IP
+
+~curl -sSL https://gitlab.com/rwkgyg/CFwarp/raw/main/point/endip.sh -o endip.sh && chmod +x endip.sh && ./endip.sh~
+

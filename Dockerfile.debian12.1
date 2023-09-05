@@ -1,0 +1,28 @@
+FROM debian:12.1
+
+RUN apt-get update \
+    && apt-get install -y \
+    curl ca-certificates unzip \
+    iproute2 net-tools iptables \
+    wireguard-tools openresolv wget \
+    && rm -rf /var/cache/apt/*
+
+RUN mkdir -p /tmp/v2ray \
+    && cd /tmp/v2ray \
+    && wget https://github.com/v2fly/v2ray-core/releases/download/v4.45.2/v2ray-linux-64.zip \
+    && unzip v2ray-linux-64.zip \
+    && cp -f v2ray /usr/local/bin/ \
+    && chmod +x /usr/local/bin/v2ray \
+    && cp -f v2ctl /usr/local/bin/ \
+    && chmod +x /usr/local/bin/v2ctl \
+    && cp -f geo* /usr/local/bin/
+
+WORKDIR /etc/wireguard
+VOLUME /etc/wireguard
+
+COPY v2ray-socks5.json /usr/local/bin/config.json
+
+COPY entry.sh /entry.sh
+RUN chmod +x /entry.sh
+
+ENTRYPOINT ["/entry.sh"]
